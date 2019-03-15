@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import getEditableElement from '../../HOC/getEditableElement'
+import Comment from '../../Atoms/Comment/Comment'
 import "./ExpenseList.css";
 
 class ExpenseList extends Component {
@@ -36,6 +38,9 @@ class ExpenseList extends Component {
   }
 
   render() {
+
+    let EditableTextArea = getEditableElement('textarea');
+
     return (
       <ul className={"expense__list"}>
         {this.expenses.map(expense => {
@@ -48,7 +53,7 @@ class ExpenseList extends Component {
                 <br />
                 category: {expense.category}
                 <br />
-                comment: {this.renderComment(expense)}
+                comment: <Comment text={expense.comment + 'test'} id={expense.id}/>
                 <br />
                 date: {new Date(expense.date).toLocaleDateString()}
                 <br />

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import Spinner from "../Spinner/Spinner";
+import Spinner from "../Atoms/Spinner/Spinner";
 import ExpenseList from "./ExpenseList/ExpenseList";
 
 class ExpensesPage extends Component {
