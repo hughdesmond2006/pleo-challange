@@ -1,74 +1,79 @@
 import React, { Component } from "react";
 
-import getEditableElement from '../../HOC/getEditableElement'
-import Comment from '../../Atoms/Comment/Comment'
+import Comment from "../../Atoms/Comment/Comment";
 import "./ExpenseList.css";
 
-class ExpenseList extends Component {
-  state = {
-    editing: false
-  };
+function searchingFor(term) {
+  return function(expense) {
+    term = term.toLowerCase();
 
+    return (
+      expense.id.toLowerCase().includes(term) ||
+      expense.amount.value.toLowerCase().includes(term) ||
+      expense.merchant.toLowerCase().includes(term) ||
+      expense.category.toLowerCase().includes(term) ||
+      expense.comment.toLowerCase().includes(term) ||
+      new Date(expense.date).toLocaleDateString().includes(term) ||
+      expense.user.first.toLowerCase().includes(term) ||
+      expense.user.last.toLowerCase().includes(term) ||
+      expense.user.email.toLowerCase().includes(term) ||
+      !term
+    );
+  };
+}
+
+class ExpenseList extends Component {
   constructor(props) {
     super(props);
 
-    this.expenses = props.expenses;
+    this.state = {
+      expenses: props.expenses,
+      term: ""
+    };
+
+    this.searchHandler = this.searchHandler.bind(this);
   }
 
-  edit() {
-    this.setState({ editing: true });
-  }
-
-  save() {
-    this.setState({ editing: false });
-  }
-
-  renderComment(expense) {
-    return this.state.editing ? (
-      <React.Fragment>
-        <textarea ref="newText" defaultValue={expense.comment} />
-        <button onClick={this.save}>Save</button>
-      </React.Fragment>
-    ) : (
-      <React.Fragment>
-        <div className="commentText">{expense.comment}</div>
-        <button onClick={this.edit}>Edit</button>
-      </React.Fragment>
-    );
+  searchHandler(e) {
+    this.setState({ term: e.target.value });
   }
 
   render() {
-
-    let EditableTextArea = getEditableElement('textarea');
-
+    const { expenses, term } = this.state;
     return (
-      <ul className={"expense__list"}>
-        {this.expenses.map(expense => {
-          return (
-            <li key={expense.id} className={"expense__item"}>
-              <div className={"expense__item-data"}>
-                id: {expense.id}
-                <br />
-                amount: {expense.amount.currency} {expense.amount.value}
-                <br />
-                category: {expense.category}
-                <br />
-                comment: <Comment text={expense.comment + 'test'} id={expense.id}/>
-                <br />
-                date: {new Date(expense.date).toLocaleDateString()}
-                <br />
-                index: {expense.index}
-                <br />
-                merchant: {expense.merchant}
-                <br />
-                receipts: {expense.receipts.length}
-                <br />
-                user: {expense.user.first} {expense.user.last}({expense.user.email})
-              </div>
-            </li>
-          );
-        })}
-      </ul>
+      <React.Fragment>
+        <form>
+          <input type={"text"} onChange={this.searchHandler} value={term} />
+        </form>
+        <ul className={"expense__list"}>
+          {expenses.filter(searchingFor(term)).map(expense => {
+            return (
+              <li key={expense.id} className={"expense__item"}>
+                <div className={"expense__item-data"}>
+                  id: {expense.id}
+                  <br />
+                  amount: {expense.amount.currency} {expense.amount.value}
+                  <br />
+                  category: {expense.category}
+                  <br />
+                  comment: <Comment text={expense.comment} id={expense.id} />
+                  <br />
+                  date: {new Date(expense.date).toLocaleDateString()}
+                  <br />
+                  index: {expense.index}
+                  <br />
+                  merchant: {expense.merchant}
+                  <br />
+                  receipts: {expense.receipts.length}
+                  <br />
+                  user: {expense.user.first} {expense.user.last}(
+                  {expense.user.email})
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </React.Fragment>
     );
   }
 }
