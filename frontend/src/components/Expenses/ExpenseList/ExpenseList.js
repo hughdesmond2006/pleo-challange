@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from 'axios';
 
 import Comment from "../../Atoms/Comment/Comment";
 import "./ExpenseList.css";
@@ -28,15 +29,30 @@ class ExpenseList extends Component {
 
     this.state = {
       expenses: props.expenses,
-      term: ""
+      term: "",
+      selectedFile: null
     };
 
     this.searchHandler = this.searchHandler.bind(this);
   }
 
-  searchHandler(e) {
-    this.setState({ term: e.target.value });
-  }
+  searchHandler = (event) => {
+    this.setState({ term: event.target.value });
+  };
+
+  fileSelectedHandler = (event) => {
+    this.setState({ selectedFile: event.target.files[0]});
+  };
+
+  fileUploadHandler = (id) => {
+    const formData = new FormData();
+    formData.append('receipt', this.state.selectedFile, this.state.selectedFile.name);
+
+    axios.post(`http://localhost:3000/expenses/${id}/receipts`, formData)
+      .then(res => {
+        console.log(res);
+      });
+  };
 
   render() {
     const { expenses, term } = this.state;
@@ -65,6 +81,8 @@ class ExpenseList extends Component {
                   merchant: {expense.merchant}
                   <br />
                   receipts: {expense.receipts.length}
+                  <input type={"file"} onChange={this.fileSelectedHandler}/>
+                  <button onClick={this.fileUploadHandler.bind(this, expense.id)}>Upload</button>
                   <br />
                   user: {expense.user.first} {expense.user.last}(
                   {expense.user.email})
