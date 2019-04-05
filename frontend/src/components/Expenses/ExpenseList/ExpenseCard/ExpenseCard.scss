@@ -1,0 +1,107 @@
+.card {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0;
+    //border: 0.5px solid #b2b2b2;
+    border-radius: 2px;
+    display: grid;
+    grid-template-columns: 50% auto;
+    grid-template-rows: 100px auto 30px 150px;
+    grid-template-areas: "amount amount"
+                        "details comment"
+                        "expander expander"
+                        "receipts receipts";
+    /*align-items: center;*/
+}
+
+// Main grid layout classes----------------------------
+.card__header-area{
+    position: relative;
+    background: beige;
+    grid-area: amount;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card__details-area{
+    background: #b0baf5;
+    grid-area: details;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.card__comment-area{
+    grid-area: comment;
+    display: flex;
+}
+
+.card__expander-area{
+    background: #323232;
+    grid-area: expander;
+    text-align: center;
+    font-size: 2rem;
+    color: white;
+}
+
+.card__receipts-area{
+    background: #a3a3a3;
+    grid-area: receipts;
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    margin: 0;
+}
+
+// Grid area sub-classes----------------------------
+.card__amount{
+    font-size: 2.3rem;
+}
+
+.card__date{
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 0.85rem;
+    color: #b7b7b7;
+    margin: 5px 5px;
+}
+
+.card__user{
+
+}
+
+.card__merchant{
+
+}
+
+.card__category{
+
+}
+
+.card__link{
+
+}
+
+.card__receipt{
+    list-style: none;
+    height: 100%;
+    width: 150px;
+}
+
+.temp1{
+    background: aquamarine;
+}
+
+.temp2{
+    background: #75d6ff;
+}
+
+.temp3{
+    background: #9962ff;
+}
+

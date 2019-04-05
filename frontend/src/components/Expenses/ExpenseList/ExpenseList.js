@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import axios from 'axios';
 
-import Comment from "../../Atoms/Comment/Comment";
-import "./ExpenseList.css";
+import "./ExpenseList.scss";
+import ExpenseCard from "./ExpenseCard/ExpenseCard";
 
 function searchingFor(term) {
   return function(expense) {
@@ -40,53 +39,19 @@ class ExpenseList extends Component {
     this.setState({ term: event.target.value });
   };
 
-  fileSelectedHandler = (event) => {
-    this.setState({ selectedFile: event.target.files[0]});
-  };
-
-  fileUploadHandler = (id) => {
-    const formData = new FormData();
-    formData.append('receipt', this.state.selectedFile, this.state.selectedFile.name);
-
-    axios.post(`http://localhost:3000/expenses/${id}/receipts`, formData)
-      .then(res => {
-        console.log(res);
-      });
-  };
-
   render() {
     const { expenses, term } = this.state;
+
     return (
       <React.Fragment>
         <form>
           <input type={"text"} onChange={this.searchHandler} value={term} />
         </form>
-        <ul className={"expense__list"}>
+        <ul className={"expense-list"}>
           {expenses.filter(searchingFor(term)).map(expense => {
             return (
-              <li key={expense.id} className={"expense__item"}>
-                <div className={"expense__item-data"}>
-                  id: {expense.id}
-                  <br />
-                  amount: {expense.amount.currency} {expense.amount.value}
-                  <br />
-                  category: {expense.category}
-                  <br />
-                  comment: <Comment text={expense.comment} id={expense.id} />
-                  <br />
-                  date: {new Date(expense.date).toLocaleDateString()}
-                  <br />
-                  index: {expense.index}
-                  <br />
-                  merchant: {expense.merchant}
-                  <br />
-                  receipts: {expense.receipts.length}
-                  <input type={"file"} onChange={this.fileSelectedHandler}/>
-                  <button onClick={this.fileUploadHandler.bind(this, expense.id)}>Upload</button>
-                  <br />
-                  user: {expense.user.first} {expense.user.last}(
-                  {expense.user.email})
-                </div>
+              <li key={expense.id}>
+                <ExpenseCard expenseData={expense}/>
               </li>
             );
           })}
