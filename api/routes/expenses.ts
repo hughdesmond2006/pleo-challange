@@ -2,7 +2,7 @@ import * as express from 'express'
 
 import { expenses } from '../data/expenses'
 import { UploadedFile } from 'express-fileupload';
-import { dirname } from 'path';
+import * as uuid from 'uuidv1';
 
 const router = express.Router()
 
@@ -48,8 +48,9 @@ router.get('/:id', (req, res) => {
 router.post('/:id', (req, res) => {
   const expense = expenses.find((expense) => expense.id === req.params.id)
 
+  //slightly changed comment saving criteria, now allows empty string but not null
   if (expense) {
-    expense.comment = req.body.comment || expense.comment
+    expense.comment = req.body.comment !== null ? req.body.comment : expense.comment
     res.status(200).send(expense)
   } else {
     res.status(404)
@@ -61,12 +62,15 @@ router.post('/:id/receipts', (req, res) => {
     return res.status(400).send('No files were uploaded.');
   }
 
-  const id = req.params.id
-  const expense = expenses.find((expense) => expense.id === id)
+  const id = req.params.id;
+  const expense = expenses.find((expense) => expense.id === id);
 
+  // changed Id to generate based on a unique uuid
+  // as original logic caused duplicate IDs when images were deleted and added
   if (expense) {
-    const receipt = req.files.receipt as UploadedFile
-    const receiptId = `${id}-${expense.receipts.length}`
+    const receipt = req.files.receipt as UploadedFile;
+
+    const receiptId = uuid();
     receipt.mv(`${process.cwd()}/receipts/${receiptId}`, (err) => {
       if (err) {
         return res.status(500).send(err);
@@ -74,13 +78,42 @@ router.post('/:id/receipts', (req, res) => {
    
       expense.receipts.push({
         url: `/receipts/${receiptId}`
-      })
+      });
       res.status(200).send(expense)
     })
-
   } else {
     res.status(404)
   }
-})
+});
+
+router.delete('/:id/receipts/:receiptID', (req, res) => {
+  const id = req.params.id;
+  const receiptID = req.params.receiptID;
+  const expense = expenses.find((expense) => expense.id === id);
+
+  //filter the given receipt out of the array
+  if (expense) {
+    let preFilteredArray = expense.receipts;
+
+    console.dir(expense.receipts);
+
+    expense.receipts = expense.receipts.filter(receipt => {
+      console.dir(receipt);
+      console.dir(receiptID);
+      return receipt.url !== `/receipts/${receiptID}`;
+    });
+
+    console.dir(expense.receipts);
+
+    //if the array is the same after filtering then that receipt was not found
+    if(preFilteredArray.length === expense.receipts.length){
+      res.status(404).send(`Receipt ID #${receiptID} doesn't exist for expense ID #${id}`);
+    }else{
+      res.status(200).send(`Receipt ID #${receiptID} successfully removed from expense ID #${id}`);
+    }
+  } else {
+    res.status(404).send(`Expense ID #${id} doesn't exist`);
+  }
+});
 
 export default router

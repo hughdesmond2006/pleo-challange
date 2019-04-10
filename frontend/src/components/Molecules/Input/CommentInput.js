@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 
 import './CommentInput.scss'
+import axios from "axios";
+import PropTypes from "prop-types";
 
 class CommentInput extends Component {
   state = {
@@ -26,12 +28,10 @@ class CommentInput extends Component {
     if(newText !== this.state.text || (this.state.isMessageShowing && !this.state.isMessageSuccess)) {
       this.setState({ text: newText});
 
-      fetch("http://localhost:3000/expenses/" + this.props.id, {
-        method: "POST",
-        body: `{"comment":"${newText}"}`,
-        headers: {
-          "Content-Type": "application/json"
-        }
+      console.log(newText);
+
+      axios.post("http://localhost:3000/expenses/" + this.props.id, {
+        comment: newText
       })
         .then(res => {
           if (res.status !== 200 && res.status !== 201) {
@@ -105,13 +105,6 @@ class CommentInput extends Component {
     let { text, isEditingEnabled, messageText, isMessageShowing, isMessageSuccess } = this.state;
     let { id } = this.props;
 
-    //+ (isHovered && " text-area__comment--editing")
-    // {(!isEditingEnabled && !isCommentSet) && <p className={"card__hint"}>Enter comment!</p>}
-
-    /*if(isEditingEnabled && text === ''){
-      text = '....';
-    }*/
-
     return (
       <div className={"comment__wrap"}>
         <div className={"comment__text" + (text === '' && !isEditingEnabled ? " comment__text--hinting" : "")}
@@ -132,5 +125,13 @@ class CommentInput extends Component {
     );
   }
 }
+
+CommentInput.propTypes = {
+
+};
+
+CommentInput.defaultProps = {
+
+};
 
 export default CommentInput;

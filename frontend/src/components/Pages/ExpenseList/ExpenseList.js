@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import "./ExpenseList.scss";
-import ExpenseCard from "./ExpenseCard/ExpenseCard";
+import ExpenseCard from "../../Templates/ExpenseCard/ExpenseCard";
 
 function searchingFor(term) {
   return function(expense) {

@@ -1,0 +1,54 @@
+.image__wrap{
+    display: inherit;
+    position: relative;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.image__delete{
+    position: absolute;
+    right: 0;
+    padding: 0;
+    width: 25px;
+    height: 25px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    cursor: pointer;
+    margin: 3px;
+    display: none;
+}
+
+.image__delete--show{
+    display: inherit;
+}
+
+.image__delete:hover {
+    background: #f50009;
+}
+
+.image__delete:after {
+    content: '+';
+    transform-origin: center;
+    transform: rotate(45deg);
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    font-size: 35px;
+    line-height: 25px;
+    margin-right: -5px;
+    margin-top: -3px;
+}
+
+.image__display{
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 150px;
+    height: 150px;
+    padding: 0;
+    margin: 0;
+}

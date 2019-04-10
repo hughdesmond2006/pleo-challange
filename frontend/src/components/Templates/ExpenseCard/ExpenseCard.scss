@@ -6,11 +6,11 @@
     border-radius: 2px;
     display: grid;
     grid-template-columns: 50% auto;
-    grid-template-rows: 100px auto 30px 150px;
+    grid-template-rows: 100px auto auto 30px;
     grid-template-areas: "amount amount"
                         "details comment"
-                        "expander expander"
-                        "receipts receipts";
+                        "receipts receipts"
+                        "expander expander";
     /*align-items: center;*/
 }
 
@@ -37,11 +37,10 @@
 
 .card__comment-area{
     grid-area: comment;
-    display: flex;
 }
 
 .card__expander-area{
-    background: #323232;
+    background: #595959;
     grid-area: expander;
     text-align: center;
     font-size: 2rem;
@@ -49,12 +48,13 @@
 }
 
 .card__receipts-area{
-    background: #a3a3a3;
+    //background: #a3a3a3;
     grid-area: receipts;
     display: flex;
     flex-direction: row;
     padding: 0;
     margin: 0;
+    background: #cfe2ff;
 }
 
 // Grid area sub-classes----------------------------
@@ -85,6 +85,10 @@
 
 .card__link{
 
+}
+
+.card__receipts{
+    display: flex;
 }
 
 .card__receipt{
