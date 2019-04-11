@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import "./ImageDisplay.scss";
+import { receiptType } from "../../../types/propShapes";
 
 class ImageDisplay extends Component {
   constructor(props) {
@@ -31,13 +32,14 @@ class ImageDisplay extends Component {
         onMouseOver={this.showDelete}
         onMouseOut={this.hideDelete}
       >
-        <a
+        <div
           className={
             "image__delete" +
             (showDelete && onDelete ? " image__delete--show" : "")
           }
           onClick={() => onDelete(image.url)}
-        />
+        >
+        </div>
         <div
           className={"image__display"}
           style={{
@@ -50,7 +52,7 @@ class ImageDisplay extends Component {
 }
 
 ImageDisplay.propTypes = {
-  image: PropTypes.shape({ url: PropTypes.string }).isRequired,
+  image: receiptType.isRequired,
   onDelete: PropTypes.func
 };
 

@@ -6,6 +6,7 @@ import WarningModal from "../../Atoms/Modal/WarningModal";
 import "./ImageDropzone.scss";
 import axios from "axios";
 import ImageDisplay from "../../Molecules/Display/ImageDisplay";
+import { receiptType } from "../../../types/propShapes";
 
 class ImageDropzone extends Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class ImageDropzone extends Component {
     this.imageMaxSize = 10000000;
 
     this.state = {
+      isExpanded: false,
       images: images,
       showWarning: false,
       warningMessage: {
@@ -67,7 +69,8 @@ class ImageDropzone extends Component {
   }
 
   refreshImageList = expenseID => {
-    axios.get(`http://localhost:3000/expenses/${expenseID}`)
+    axios
+      .get(`http://localhost:3000/expenses/${expenseID}`)
       .then(res => {
         if (res.status !== 200 && res.status !== 201) {
           throw new Error(`failed to receive expense data for #${expenseID}`);
@@ -81,7 +84,7 @@ class ImageDropzone extends Component {
   };
 
   toggleWarning() {
-    this.setState(prevState => ({ showWarning: !prevState.showWarning }));
+    this.setState(prevState => ({ isExpanded: !prevState.showWarning }));
   }
 
   setWarning(title, body) {
@@ -95,7 +98,8 @@ class ImageDropzone extends Component {
   }
 
   removeImage = (expenseID, url) => {
-    axios.delete(`http://localhost:3000/expenses/${expenseID}${url}`)
+    axios
+      .delete(`http://localhost:3000/expenses/${expenseID}${url}`)
       .then(() => {
         console.log("IMAGE REMOVED: " + url);
         this.refreshImageList(expenseID);
@@ -109,10 +113,14 @@ class ImageDropzone extends Component {
     this.refs.dropzone.open();
   };
 
+  toggleExpander = () => {
+    this.setState(prevState => ({ isExpanded: !prevState.isExpanded }));
+  };
+
   render() {
     const { expenseID } = this.props;
 
-    const { images, showWarning, warningMessage } = this.state;
+    const { isExpanded, images, showWarning, warningMessage } = this.state;
 
     return (
       <>
@@ -124,42 +132,52 @@ class ImageDropzone extends Component {
             body={warningMessage.body}
           />
         )}
-        <Dropzone
-          className="uploadBox imageContainer"
-          onDrop={this.onChange.bind(this, expenseID)}
-          maxSize={this.imageMaxSize}
-          accept="image/jpeg, image/png"
-          multiple={false}
-          disableClick={true}
-          ref={"dropzone"}
-        >
-          <ul className={"image__list"}>
-            {images.map((image, i) => (
-              <li key={i}>
-                <ImageDisplay
-                  image={image}
-                  onDelete={this.removeImage.bind(this, expenseID)}
-                />
-              </li>
-            ))}
-            <div className={"image__add"}>
-              <a className={"add__click"} onClick={this.browseImages} />
-              <p className={"add__plus"}>+</p>
-              <p className={"add__text"}>
-                Drop or click here to add a new receipt
-              </p>
-            </div>
-          </ul>
-        </Dropzone>
+        {isExpanded && (
+          <Dropzone
+            className="dropzone"
+            onDrop={this.onChange.bind(this, expenseID)}
+            maxSize={this.imageMaxSize}
+            accept="image/jpeg, image/png"
+            multiple={false}
+            disableClick={true}
+            ref={"dropzone"}
+          >
+            <ul className={"image__list"}>
+              {images.map((image, i) => (
+                <li key={i}>
+                  <ImageDisplay
+                    image={image}
+                    onDelete={this.removeImage.bind(this, expenseID)}
+                  />
+                </li>
+              ))}
+              <div className={"image__add"}>
+                <div className={"add__click"} onClick={this.browseImages} />
+                <p className={"add__plus"}>+</p>
+                <p className={"add__text"}>
+                  Drop or click here to add a new receipt
+                </p>
+              </div>
+            </ul>
+          </Dropzone>
+        )}
+        <div className={"dropzone__expander"} onClick={this.toggleExpander}>
+          {isExpanded ? (
+            <p className={"expander__arrow"}>^</p>
+          ) : (
+            <p className={"expander__receipt-count"}>
+              Receipts ({images.length})
+            </p>
+          )}
+        </div>
       </>
     );
   }
 }
 
 ImageDropzone.propTypes = {
-  images: PropTypes.arrayOf(PropTypes.shape({ url: PropTypes.string }))
+  images: PropTypes.arrayOf(receiptType).isRequired,
+  expenseID: PropTypes.string.isRequired
 };
 
-
 export default ImageDropzone;
-

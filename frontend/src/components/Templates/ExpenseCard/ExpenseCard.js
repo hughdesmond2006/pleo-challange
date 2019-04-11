@@ -1,9 +1,9 @@
 import React from "react";
-import PropTypes from 'prop-types'
 
 import "./ExpenseCard.scss";
 import CommentInput from "../../Molecules/Input/CommentInput";
 import ImageDropzone from "../../Organisms/ImageDropzone/ImageDropzone";
+import { expenseType } from "../../../types/propShapes";
 
 //functional dumb display component
 const ExpenseCard = ({expenseData}) => {
@@ -11,7 +11,7 @@ const ExpenseCard = ({expenseData}) => {
       <div className={"card"}>
         <div className={"card__header-area"}>
           <div className={"card__date"}>
-            {new Date(expenseData.date).toLocaleDateString()}
+            {new Date(expenseData.date).toLocaleDateString('en-GB')}
           </div>
           <div className={"card__amount"}>
             {expenseData.amount.currency} {expenseData.amount.value}
@@ -36,37 +36,14 @@ const ExpenseCard = ({expenseData}) => {
           id={expenseData.id}
         />
         <div className={"card__receipts-area"}>
-          <ImageDropzone images={expenseData.receipts} expenseID={expenseData.id}
-          />
-        </div>
-        <div className={"card__expander-area"}>
-          ^
+          <ImageDropzone images={expenseData.receipts} expenseID={expenseData.id} />
         </div>
       </div>
     );
 };
 
 ExpenseCard.propTypes = {
-  expenseData: PropTypes.shape({
-    id: PropTypes.string,
-    amount: PropTypes.shape({
-      currency: PropTypes.string,
-      value: PropTypes.string
-    }),
-    date: PropTypes.string,
-    merchant: PropTypes.string,
-    receipts: PropTypes.arrayOf(
-      PropTypes.shape({url: PropTypes.string})
-    ),
-    comment: PropTypes.string,
-    category: PropTypes.string,
-    user: PropTypes.shape({
-      first: PropTypes.string,
-      last: PropTypes.string,
-      email: PropTypes.string
-    }),
-    index: PropTypes.number
-  }).isRequired,
+  expenseData: expenseType.isRequired
 };
 
 export default ExpenseCard;

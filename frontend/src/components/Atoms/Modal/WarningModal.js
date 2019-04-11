@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 
 import './WarningModal.scss'
 
+// TODO styling, background, cleanup CSS
 const WarningModal = ({
   modalOpen,
   onCloseModal,
@@ -31,12 +32,13 @@ const WarningModal = ({
   );
 };
 
-export default WarningModal;
-
 WarningModal.defaultProps = {};
+
 WarningModal.propTypes = {
   modalOpen: PropTypes.bool.isRequired,
   onCloseModal: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
 };
+
+export default WarningModal;

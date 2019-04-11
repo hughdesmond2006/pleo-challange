@@ -4,6 +4,9 @@ import Spinner from "../Atoms/Spinner/Spinner";
 import ExpenseList from "./ExpenseList/ExpenseList";
 import axios from "axios";
 
+import "./ExpensesPage.scss";
+import NavBar from "../Organisms/NavBar/NavBar";
+
 class ExpensesPage extends Component {
   state = {
     isLoading: false,
@@ -18,7 +21,8 @@ class ExpensesPage extends Component {
     this.setState({ isLoading: true });
 
     //gets all expenses from the api
-    axios.get("http://localhost:3000/expenses")
+    axios
+      .get("http://localhost:3000/expenses")
       .then(res => {
         if (res.status !== 200 && res.status !== 201) {
           throw new Error("failed to receive expense data");
@@ -34,7 +38,18 @@ class ExpensesPage extends Component {
   };
 
   render() {
-    return !this.state.isLoading ? <ExpenseList expenses={this.state.expenses}/> : <Spinner />;
+    const { isLoading } = this.state;
+
+    return (
+      <>
+        <NavBar />
+        {!isLoading ? (
+          <ExpenseList expenses={this.state.expenses} />
+        ) : (
+          <Spinner />
+        )}
+      </>
+    );
   }
 }
 

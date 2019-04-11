@@ -5,18 +5,17 @@ import axios from "axios";
 import PropTypes from "prop-types";
 
 class CommentInput extends Component {
-  state = {
-    text: '',
-    isEditingEnabled: false,
-    messageText: '',
-    isMessageShowing: false,
-    isMessageSuccess: true,
-  };
-
   constructor(props) {
     super(props);
+    const { text } = this.props;
 
-    this.state.text = props.text.trim();
+    this.state = {
+      text: text.trim(),
+      isEditingEnabled: false,
+      messageText: '',
+      isMessageShowing: false,
+      isMessageSuccess: true
+    };
   }
 
   saveChange = () => {
@@ -30,6 +29,7 @@ class CommentInput extends Component {
 
       console.log(newText);
 
+      // post new comment to api
       axios.post("http://localhost:3000/expenses/" + this.props.id, {
         comment: newText
       })
@@ -79,6 +79,7 @@ class CommentInput extends Component {
           isEditingEnabled: false
         });
         break;
+      default:
     }
   };
 
@@ -102,13 +103,15 @@ class CommentInput extends Component {
   };
 
   render() {
-    let { text, isEditingEnabled, messageText, isMessageShowing, isMessageSuccess } = this.state;
-    let { id } = this.props;
+    const { text, isEditingEnabled, messageText, isMessageShowing, isMessageSuccess } = this.state;
+    const { id } = this.props;
 
+    // I am suppressing React's warning about unmanaged children as I am handling it myself
     return (
       <div className={"comment__wrap"}>
         <div className={"comment__text" + (text === '' && !isEditingEnabled ? " comment__text--hinting" : "")}
              contentEditable={isEditingEnabled}
+             suppressContentEditableWarning={true}
              onMouseDown={this.onClick}
              onKeyDown={this.handleKeyDown}
              onBlur={this.saveChange}
@@ -127,11 +130,12 @@ class CommentInput extends Component {
 }
 
 CommentInput.propTypes = {
-
+  id: PropTypes.string.isRequired,
+  text: PropTypes.string
 };
 
 CommentInput.defaultProps = {
-
+  text: ''
 };
 
 export default CommentInput;
