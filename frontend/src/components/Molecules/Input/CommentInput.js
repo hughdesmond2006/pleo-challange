@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import './CommentInput.scss'
 import axios from "axios";
 import PropTypes from "prop-types";
+import store from "../../../redux/store";
+import { updateComment } from "../../../redux/actions/expensesActions";
 
 class CommentInput extends Component {
   constructor(props) {
@@ -21,13 +23,9 @@ class CommentInput extends Component {
   saveChange = () => {
     let newText = this.refs.Textbox.textContent.trim();
 
-    console.log("contents: " + newText);
-
     // only send a new request if the text has changed, unless retying after an upload error
     if(newText !== this.state.text || (this.state.isMessageShowing && !this.state.isMessageSuccess)) {
       this.setState({ text: newText});
-
-      console.log(newText);
 
       // post new comment to api
       axios.post("http://localhost:3000/expenses/" + this.props.id, {
@@ -44,6 +42,9 @@ class CommentInput extends Component {
             isMessageShowing: true,
             isMessageSuccess: true
           });
+
+          //call redux func to update app state
+          store.dispatch(updateComment(res.data.id, res.data.comment));
 
           setTimeout(
             function() {
@@ -82,10 +83,6 @@ class CommentInput extends Component {
       default:
     }
   };
-
-  componentDidUpdate() {
-    console.log("new text: " + this.state.text);
-  }
 
   onClick = () => {
     if (!this.state.isEditingEnabled) {

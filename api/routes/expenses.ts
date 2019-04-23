@@ -95,15 +95,9 @@ router.delete('/:id/receipts/:receiptID', (req, res) => {
   if (expense) {
     let preFilteredArray = expense.receipts;
 
-    console.dir(expense.receipts);
-
     expense.receipts = expense.receipts.filter(receipt => {
-      console.dir(receipt);
-      console.dir(receiptID);
       return receipt.url !== `/receipts/${receiptID}`;
     });
-
-    console.dir(expense.receipts);
 
     //if the array is the same after filtering then that receipt was not found
     if(preFilteredArray.length === expense.receipts.length){

@@ -1,12 +1,9 @@
-export function changeSortField(sortFieldName) {
+export function applySort(sortFieldName, isAscending) {
     return {
-        type: "SORT_FIELD",
-        payload: sortFieldName
-    };
-}
-
-export function toggleSortDirection() {
-    return {
-        type: "TOGGLE_SORT_DIRECTION"
+        type: "SORT",
+        payload: {
+            sortFieldName,
+            isAscending
+        }
     };
 }

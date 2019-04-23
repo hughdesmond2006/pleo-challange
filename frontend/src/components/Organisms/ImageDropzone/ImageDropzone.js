@@ -7,19 +7,20 @@ import "./ImageDropzone.scss";
 import axios from "axios";
 import ImageDisplay from "../../Molecules/Display/ImageDisplay";
 import { receiptType } from "../../../types/propShapes";
+import store from "../../../redux/store";
+import { addReceipt, removeReceipt } from "../../../redux/actions/expensesActions";
 
 class ImageDropzone extends Component {
   constructor(props) {
     super(props);
-    const { images } = this.props;
 
     // 10 mb max
     this.imageMaxSize = 10000000;
 
     this.state = {
       isExpanded: false,
-      images: images,
       showWarning: false,
+      showDropBorder: false,
       warningMessage: {
         title: "",
         body: ""
@@ -29,6 +30,8 @@ class ImageDropzone extends Component {
 
   //called when a new image is dropped or selected..
   onChange = (expenseID, files) => {
+    this.setState({ showDropBorder: false});
+
     //Check to make sure image is valid..
     if (files && files.length > 0) {
       const isValid = this.validateFile(files[0]);
@@ -46,7 +49,8 @@ class ImageDropzone extends Component {
               throw new Error(`failed to upload new image for #${expenseID}`);
             }
 
-            this.refreshImageList(expenseID);
+            //call redux func to update app state. send expense id and url of new receipt
+            store.dispatch(addReceipt(expenseID, res.data.receipts[res.data.receipts.length - 1].url));
           })
           .catch(err => {
             console.dir(err);
@@ -68,21 +72,6 @@ class ImageDropzone extends Component {
     return true;
   }
 
-  refreshImageList = expenseID => {
-    axios
-      .get(`http://localhost:3000/expenses/${expenseID}`)
-      .then(res => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error(`failed to receive expense data for #${expenseID}`);
-        }
-
-        this.setState({ images: res.data.receipts });
-      })
-      .catch(err => {
-        console.dir(err);
-      });
-  };
-
   toggleWarning() {
     this.setState(prevState => ({ isExpanded: !prevState.showWarning }));
   }
@@ -102,7 +91,9 @@ class ImageDropzone extends Component {
       .delete(`http://localhost:3000/expenses/${expenseID}${url}`)
       .then(() => {
         console.log("IMAGE REMOVED: " + url);
-        this.refreshImageList(expenseID);
+
+        //call redux func to update app state
+        store.dispatch(removeReceipt(expenseID, url));
       })
       .catch(err => {
         console.dir(err);
@@ -117,10 +108,17 @@ class ImageDropzone extends Component {
     this.setState(prevState => ({ isExpanded: !prevState.isExpanded }));
   };
 
-  render() {
-    const { expenseID } = this.props;
+  onDragEnter = () => {
+    this.setState({ showDropBorder: true});
+  };
 
-    const { isExpanded, images, showWarning, warningMessage } = this.state;
+  onDragLeave = () => {
+    this.setState({ showDropBorder: false});
+  };
+
+  render() {
+    const { expenseID, images } = this.props;
+    const { showDropBorder, isExpanded, showWarning, warningMessage } = this.state;
 
     return (
       <>
@@ -134,12 +132,14 @@ class ImageDropzone extends Component {
         )}
         {isExpanded && (
           <Dropzone
-            className="dropzone"
+            className={"dropzone" + (showDropBorder ? " dropzone--dragover" : "")}
             onDrop={this.onChange.bind(this, expenseID)}
             maxSize={this.imageMaxSize}
             accept="image/jpeg, image/png"
             multiple={false}
             disableClick={true}
+            onDragEnter={this.onDragEnter}
+            onDragLeave={this.onDragLeave}
             ref={"dropzone"}
           >
             <ul className={"image__list"}>

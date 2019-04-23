@@ -1,7 +1,16 @@
 .dropzone{
-    border: 4px dashed #595959;
+    //border: 3px dashed #565656;
     margin: 0;
-    padding: 0;
+    background-color: #7a7a7a;
+    background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23bebebe' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+    padding: 5px;
+    border: 3px solid rgba(255, 51, 102, 0);
+    transition: border-color 200ms ease-out;
+}
+
+.dropzone--dragover{
+    border: 3px solid rgb(255, 51, 102);
+    transition: border-color 300ms ease-in;
 }
 
 .image__list{
@@ -31,10 +40,12 @@
     height: 100%;
     cursor: pointer;
     z-index: 3;
+    transition: background-color 300ms ease-out;
 }
 
 .add__click:hover {
-    background: rgba(0, 0, 0, 0.04);
+    background: rgba(0, 0, 0, 0.06);
+    transition: none;
 }
 
 .add__plus{
@@ -66,19 +77,20 @@
 .dropzone__expander{
     height: 30px;
     width: 100%;
-    border-radius: 0 0 12px 12px;
-    background: #595959;
+    border-radius: 0 0 8px 8px;
     text-align: center;
+    transition: background-color 300ms ease-out;
+    border: .5px solid #c3c3c3;
 }
 
 .dropzone__expander:hover {
-    background: #7d7d7d;
+    background: #f5f5f5;
     cursor: pointer;
+    transition: none;
 }
 
 .expander__arrow{
     display: inline-block;
-    color: white;
     transform-origin: center;
     transform: scale(2,1);
     font-weight: 100;
@@ -87,7 +99,7 @@
 }
 
 .expander__receipt-count{
-    color: white;
+    //color: white;
     font-weight: 400;
     line-height: 30px;
     font-size: .8rem;

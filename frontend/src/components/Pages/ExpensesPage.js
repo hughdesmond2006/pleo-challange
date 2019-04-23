@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 
 import Spinner from "../Atoms/Spinner/Spinner";
-import ExpenseList from "./ExpenseList/ExpenseList";
+import ExpenseList from "../Organisms/ExpenseList/ExpenseList";
 import axios from "axios";
 
 import "./ExpensesPage.scss";
 import NavBar from "../Organisms/NavBar/NavBar";
+import store from "../../redux/store";
+import {initExpenses} from "../../redux/actions/expensesActions"
 
 class ExpensesPage extends Component {
   state = {
@@ -15,6 +17,10 @@ class ExpensesPage extends Component {
 
   componentDidMount() {
     this.fetchExpenses();
+  }
+
+  componentDidUpdate() {
+    console.log("Page updated!");
   }
 
   fetchExpenses = () => {
@@ -29,6 +35,8 @@ class ExpensesPage extends Component {
         }
 
         this.setState({ expenses: res.data.expenses, isLoading: false });
+
+        store.dispatch(initExpenses(res.data.expenses));
       })
       .catch(err => {
         console.dir(err);

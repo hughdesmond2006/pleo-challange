@@ -6,40 +6,64 @@ import ImageDropzone from "../../Organisms/ImageDropzone/ImageDropzone";
 import { expenseType } from "../../../types/propShapes";
 
 //functional dumb display component
-const ExpenseCard = ({expenseData}) => {
-    return (
-      <div className={"card"}>
-        <div className={"card__header-area"}>
-          <div className={"card__date"}>
-            {new Date(expenseData.date).toLocaleDateString('en-GB')}
-          </div>
-          <div className={"card__amount"}>
-            {expenseData.amount.currency} {expenseData.amount.value}
-          </div>
+const ExpenseCard = ({ expenseData }) => {
+  const prettyAmount = new Intl.NumberFormat("en-GB", {
+    style: "currency",
+    currency: expenseData.amount.currency,
+    useGrouping: true
+  }).format(expenseData.amount.value);
+
+  return (
+    <div className={"card"}>
+      <div className={"card__header-area"}>
+        <div className={"card__date"}>
+          {new Date(expenseData.date).toLocaleDateString("en-GB")}
         </div>
-        <div className={"card__details-area"}>
-          <div className={"card__user"}>
-            User: {expenseData.user.first} {expenseData.user.last} {/*expense.user.email*/}
+        <div className={"card__amount"}>{prettyAmount}</div>
+      </div>
+      <div className={"card__details-area"}>
+        <div className={"card__details-wrap"}>
+          <div>
+            <i className="material-icons">link</i> <p>{expenseData.id}</p>
           </div>
-          <div className={"card__merchant"}>
-            Merchant: {expenseData.merchant}
+          <div>
+            <i className="material-icons">face</i>
+            <p>
+              <a
+                href={
+                  "mailto:" +
+                  expenseData.user.email +
+                  "?subject=Expense ID #" +
+                  expenseData.id
+                }
+              >
+                {expenseData.user.first} {expenseData.user.last}
+              </a>
+            </p>
           </div>
-          <div className={"card__category"}>
-            Category: {expenseData.category}
+          <div>
+            <i className="material-icons">store</i>
+            <p>{expenseData.merchant}</p>
           </div>
-          <div className={"card__link"}>
-            {expenseData.id}
+          <div>
+            {expenseData.category && <i className="material-icons">category</i>}
+            <p>{expenseData.category}</p>
           </div>
-        </div>
-        <CommentInput className={"card__comment-area"}
-          text={expenseData.comment}
-          id={expenseData.id}
-        />
-        <div className={"card__receipts-area"}>
-          <ImageDropzone images={expenseData.receipts} expenseID={expenseData.id} />
         </div>
       </div>
-    );
+      <CommentInput
+        className={"card__comment-area"}
+        text={expenseData.comment}
+        id={expenseData.id}
+      />
+      <div className={"card__receipts-area"}>
+        <ImageDropzone
+          images={expenseData.receipts}
+          expenseID={expenseData.id}
+        />
+      </div>
+    </div>
+  );
 };
 
 ExpenseCard.propTypes = {
