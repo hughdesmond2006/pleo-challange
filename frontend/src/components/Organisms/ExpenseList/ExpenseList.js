@@ -14,26 +14,49 @@ class ExpenseList extends Component {
   filterFunction = (expense) => {
     const { filterText, filterField, hasReceiptsOnly } = this.props;
 
-    const filterTextLowercase = filterText.toLowerCase();
+    const filterTextLowercase = filterText.toLowerCase().trim();
 
     // if the 'has receipts' checkbox is checked then filter any expenses with an empty receipts array
     if(hasReceiptsOnly){
-      console.log("HAI");
       if(expense.receipts.length === 0){
         return false;
       }
     }
 
+    //fields that need formatting for the purpose of searching..
+    const fullName = expense.user.first + ' ' + expense.user.last;
+
+    const prettyAmount = new Intl.NumberFormat("en-GB", {
+      style: "currency",
+      currency: expense.amount.currency,
+      useGrouping: true
+    }).format(expense.amount.value);
+
+    const prettyDate = new Date(expense.date).toLocaleDateString("en-GB");
+
     switch(filterField){
       case "all":
         return (
           expense.id.toLowerCase().includes(filterTextLowercase) ||
-          expense.user.first.toLowerCase().includes(filterTextLowercase) ||
-          expense.user.last.toLowerCase().includes(filterTextLowercase) ||
+          prettyDate.includes(filterTextLowercase) ||
+          expense.amount.value.toLowerCase().includes(filterTextLowercase) ||
+          prettyAmount.toLowerCase().includes(filterTextLowercase) ||
+          fullName.toLowerCase().includes(filterTextLowercase) ||
           expense.user.email.toLowerCase().includes(filterTextLowercase) ||
           expense.merchant.toLowerCase().includes(filterTextLowercase) ||
           expense.category.toLowerCase().includes(filterTextLowercase) ||
           expense.comment.toLowerCase().includes(filterTextLowercase) ||
+          !filterTextLowercase
+        );
+      case "date":
+        return (
+          prettyDate.includes(filterTextLowercase) ||
+          !filterTextLowercase
+        );
+      case "amount":
+        return (
+          expense.amount.value.toLowerCase().includes(filterTextLowercase) ||
+          prettyAmount.toLowerCase().includes(filterTextLowercase) ||
           !filterTextLowercase
         );
       case "id":
@@ -43,8 +66,7 @@ class ExpenseList extends Component {
         );
       case "user":
         return (
-          expense.user.first.toLowerCase().includes(filterTextLowercase) ||
-          expense.user.last.toLowerCase().includes(filterTextLowercase) ||
+          fullName.toLowerCase().includes(filterTextLowercase) ||
           expense.user.email.toLowerCase().includes(filterTextLowercase) ||
           !filterTextLowercase
         );
@@ -84,7 +106,7 @@ class ExpenseList extends Component {
   };
 
   render() {
-    const { expenses } = this.props;
+    const { expenses, highlightedField } = this.props;
 
     return (
       <React.Fragment>
@@ -95,7 +117,7 @@ class ExpenseList extends Component {
             .map(expense => {
               return (
                 <li key={expense.index}>
-                  <ExpenseCard expenseData={expense} />
+                  <ExpenseCard expenseData={expense} highlightedField={highlightedField}/>
                 </li>
               );
             })}
@@ -111,7 +133,8 @@ ExpenseList.propTypes = {
   filterField: PropTypes.string.isRequired,
   hasReceiptsOnly: PropTypes.bool.isRequired,
   sortField: PropTypes.string.isRequired,
-  isAscending: PropTypes.bool.isRequired
+  isAscending: PropTypes.bool.isRequired,
+  highlightedField: PropTypes.string
 };
 
 // these are the pieces of state which will be mapped to this component's props
@@ -122,7 +145,8 @@ const mapStateToProps = state => {
     filterField: state.filter.filterField,
     hasReceiptsOnly: state.filter.hasReceiptsOnly,
     sortField: state.sort.sortField,
-    isAscending: state.sort.isAscending
+    isAscending: state.sort.isAscending,
+    highlightedField: state.highlight.highlightedField
   };
 };
 

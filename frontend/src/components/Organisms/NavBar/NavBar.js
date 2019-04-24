@@ -9,23 +9,39 @@ import {
 } from "../../../redux/actions/filterActions";
 import { applySort } from "../../../redux/actions/sortActions";
 import SortButton from "../../Atoms/Button/SortButton";
+import { highlightField } from "../../../redux/actions/highlightActions";
 
 class NavBar extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      activeFilterField: "all",
       activeSortField: "amount",
       isAscending: false
     };
   }
 
   changeFilterText = event => {
+    const { activeFilterField } = this.state;
+
     store.dispatch(changeFilterText(event.target.value));
+
+    store.dispatch(highlightField(activeFilterField));
+    setTimeout(function() {
+      store.dispatch(highlightField('none'));
+    }, 300);
   };
 
   changeFilterField = event => {
+    this.setState({ activeFilterField: event.target.value });
+
     store.dispatch(changeFilterField(event.target.value));
+
+    store.dispatch(highlightField(event.target.value));
+    setTimeout(function() {
+      store.dispatch(highlightField('none'));
+    }, 300);
   };
 
   sort = sortField => {
@@ -39,6 +55,11 @@ class NavBar extends Component {
       this.setState({ isAscending: !isAscending });
       store.dispatch(applySort(sortField, !isAscending));
     }
+
+    store.dispatch(highlightField(sortField));
+    setTimeout(function() {
+      store.dispatch(highlightField('none'));
+    }, 300);
   };
 
   toggleReceiptsOnly = () => {
@@ -65,6 +86,8 @@ class NavBar extends Component {
                   onChange={this.changeFilterField}
                 >
                   <option value="all">All</option>
+                  <option value="date">Date</option>
+                  <option value="amount">Amount</option>
                   <option value="id">ID</option>
                   <option value="user">User</option>
                   <option value="merchant">Merchant</option>

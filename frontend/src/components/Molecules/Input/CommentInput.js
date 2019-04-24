@@ -101,12 +101,12 @@ class CommentInput extends Component {
 
   render() {
     const { text, isEditingEnabled, messageText, isMessageShowing, isMessageSuccess } = this.state;
-    const { id } = this.props;
+    const { id, highlightClass } = this.props;
 
     // I am suppressing React's warning about unmanaged children as I am handling it myself
     return (
       <div className={"comment__wrap"}>
-        <div className={"comment__text" + (text === '' && !isEditingEnabled ? " comment__text--hinting" : "")}
+        <div className={"comment__text" + (text === '' && !isEditingEnabled ? " comment__text--hinting" : "") + highlightClass}
              contentEditable={isEditingEnabled}
              suppressContentEditableWarning={true}
              onMouseDown={this.onClick}
@@ -128,11 +128,13 @@ class CommentInput extends Component {
 
 CommentInput.propTypes = {
   id: PropTypes.string.isRequired,
-  text: PropTypes.string
+  text: PropTypes.string,
+  highlightClass: PropTypes.string
 };
 
 CommentInput.defaultProps = {
-  text: ''
+  text: '',
+  highlightClass: ''
 };
 
 export default CommentInput;

@@ -39,6 +39,7 @@
 .card__comment-area {
   grid-area: comment;
   border-right: .5px solid #c3c3c3;
+  transition: background-color 2000ms ease-out;
 }
 
 .card__receipts-area {
@@ -50,6 +51,7 @@
 // Grid area sub-classes----------------------------
 .card__amount {
   font-size: 2.3rem;
+  transition: background-color 2000ms ease-out;
 }
 
 .card__date {
@@ -58,6 +60,7 @@
   top: 0;
   font-size: 0.85rem;
   margin: 6px 8px;
+  transition: background-color 2000ms ease-out;
 }
 
 .material-icons {
@@ -92,4 +95,22 @@
     color: rgb(255, 51, 102);
     text-decoration: underline;
   }
+}
+
+.card__id{
+  transition: background-color 2000ms ease-out;
+}
+
+.card__user{
+  transition: background-color 2000ms ease-out;
+}
+
+.card__merchant{
+  transition: background-color 2000ms ease-out;
+}
+
+.highlighted{
+  background-color: rgba(255, 228, 235, 0.82);
+  transition: none;
+  -webkit-transition: none;
 }

@@ -13,6 +13,8 @@
     vertical-align: center;
     color: inherit;
     height: 100%;
+    transition: background-color 2000ms ease-out;
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .comment__text--hinting{
@@ -20,7 +22,7 @@
 }
 
 .comment__wrap:hover{
-    background: #f5f5f5;
+    background-color: #f5f5f5;
     cursor: text;
     transition: none;
 }
@@ -51,5 +53,12 @@
     padding-top: 10px;
     padding-bottom: 10px;
     border-right: .5px solid #c3c3c3;
+    background-color: rgba(0, 0, 0, 0);
     transition: background-color 300ms ease-out;
+}
+
+.highlighted{
+    background-color: rgba(255, 228, 235, 0.82);
+    transition: none;
+    -webkit-transition: none;
 }
