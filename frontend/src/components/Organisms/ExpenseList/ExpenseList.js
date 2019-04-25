@@ -7,10 +7,6 @@ import PropTypes from "prop-types";
 import { expenseType } from "../../../types/propShapes";
 
 class ExpenseList extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   filterFunction = (expense) => {
     const { filterText, filterField, hasReceiptsOnly } = this.props;
 

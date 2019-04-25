@@ -90,8 +90,6 @@ class ImageDropzone extends Component {
     axios
       .delete(`http://localhost:3000/expenses/${expenseID}${url}`)
       .then(() => {
-        console.log("IMAGE REMOVED: " + url);
-
         //call redux func to update app state
         store.dispatch(removeReceipt(expenseID, url));
       })

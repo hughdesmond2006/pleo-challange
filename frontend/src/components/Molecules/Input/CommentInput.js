@@ -90,7 +90,6 @@ class CommentInput extends Component {
 
       setTimeout(function() {
         div.focus();
-        console.log("focused");
       }, 0);
 
       this.setState({

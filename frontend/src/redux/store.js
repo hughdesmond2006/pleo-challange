@@ -13,5 +13,5 @@ export default createStore(
     expenses: expensesReducer,
     highlight: highlightReducer
   }),
-  applyMiddleware(logger)
+  applyMiddleware(/*logger*/)
 );

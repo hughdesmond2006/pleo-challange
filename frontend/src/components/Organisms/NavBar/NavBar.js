@@ -19,7 +19,7 @@ class NavBar extends Component {
     this.state = {
       activeFilterField: "all",
       hasReceiptsOnly: false,
-      activeSortField: "amount",
+      activeSortField: "date",
       isAscending: false
     };
   }

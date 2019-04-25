@@ -19,10 +19,6 @@ class ExpensesPage extends Component {
     this.fetchExpenses();
   }
 
-  componentDidUpdate() {
-    console.log("Page updated!");
-  }
-
   fetchExpenses = () => {
     this.setState({ isLoading: true });
 
