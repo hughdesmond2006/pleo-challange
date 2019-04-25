@@ -14,22 +14,36 @@
   display: block;
   width: 100%;
   height: 74px;
+  @media not screen and (min-width: 400px){
+    height: 108px;
+  }
 }
 
 .navbar__controls{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  @media not screen and (min-width: 400px){
+    flex-direction: column;
+    align-items: center;
+  }
   vertical-align: middle;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   margin: 0 auto;
   padding: 0;
   width: 600px;
+  @media not screen and (min-width: 650px){
+    width: 95%;
+  }
+  @media not screen and (min-width: 270px){
+    width: 240px;
+  }
 }
 
 .controls__search{
   display: flex;
   width: 200px;
+  height: 25px;
 }
 
 .controls__filter-area{
@@ -38,37 +52,14 @@
   flex-wrap: wrap;
   padding: 0;
   margin: 0;
+  position: relative;
 }
 
 .controls__sort-area{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  display: inline-block;
+  white-space: nowrap;
   padding: 0;
   margin: 0;
-}
-
-.controls__receipts-only{
-  width: 18px;
-  height: 18px;
-  border-radius: 3px;
-  border: none;
-  background-color: white;
-  color: #373737;
-  outline: none;
-  padding: 0 8px;
-  vertical-align: middle;
-  display: inline-block;
-  margin: 7px 0 0 5px;
-}
-
-.receipts-only__label{
-  padding: 0;
-  margin: 0 0 0 10px;
-  /* color: white; */
-  line-height: 30px;
-  font-size: .9rem;
-  font-weight: 400;
 }
 
 .controls__sort-area .sort-button{
@@ -77,15 +68,12 @@
 
 .controls__search-wrap{
   position: relative;
-  display: inherit;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-direction: row;
-  flex-direction: row;
-  -webkit-flex-wrap: wrap;
-  flex-wrap: wrap;
+  display: inline-block;
   padding: 0;
   margin: 0;
+  @media not screen and (min-width: 400px){
+    margin-bottom: 16px;
+  }
 }
 
 .controls__filter-type{
@@ -97,6 +85,7 @@
   width: 90px;
   height: 100%;
   right: 0;
+  top: 0;
   background: rgba(255,51,102,0);
   font-size: 0.8rem;
   border: none;

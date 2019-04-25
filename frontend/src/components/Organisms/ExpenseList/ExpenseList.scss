@@ -3,4 +3,10 @@
     margin: 0 auto;
     padding: 0;
     width: 600px;
+    @media not screen and (min-width: 650px){
+        width: 95%;
+    }
+    @media not screen and (min-width: 270px){
+        width: 240px;
+    }
 }
