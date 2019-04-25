@@ -18,6 +18,7 @@ const WarningModal = ({
       shouldCloseOnOverlayClick={true}
       className="modalWindow warningModal"
       overlayClassName="modalWindowOverlay"
+      ariaHideApp={false}
     >
       <h2>
         {title}

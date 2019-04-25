@@ -72,9 +72,9 @@ class ImageDropzone extends Component {
     return true;
   }
 
-  toggleWarning() {
-    this.setState(prevState => ({ isExpanded: !prevState.showWarning }));
-  }
+  toggleWarning = () => {
+    this.setState(prevState => ({ showWarning: !prevState.showWarning }));
+  };
 
   setWarning(title, body) {
     this.setState({
@@ -123,7 +123,7 @@ class ImageDropzone extends Component {
         {showWarning && (
           <WarningModal
             modalOpen={showWarning}
-            onCloseModal={() => this.toggleWarning()}
+            onCloseModal={this.toggleWarning}
             title={warningMessage.title}
             body={warningMessage.body}
           />
