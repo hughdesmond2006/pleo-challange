@@ -94,7 +94,6 @@
   outline: none;
   margin: 0;
   padding-right: 20px;
-  transition: background-color;
   width: 90px;
   height: 100%;
   right: 0;
@@ -107,6 +106,7 @@
   text-align-last: center;
   direction: ltr;
   z-index: 1;
+  cursor: pointer;
 }
 
 .controls__search{

@@ -10,6 +10,7 @@ import {
 import { applySort } from "../../../redux/actions/sortActions";
 import SortButton from "../../Atoms/Button/SortButton";
 import { highlightField } from "../../../redux/actions/highlightActions";
+import CheckBox from "../../Atoms/Checkbox/CheckBox";
 
 class NavBar extends Component {
   constructor(props) {
@@ -17,6 +18,7 @@ class NavBar extends Component {
 
     this.state = {
       activeFilterField: "all",
+      hasReceiptsOnly: false,
       activeSortField: "amount",
       isAscending: false
     };
@@ -63,11 +65,14 @@ class NavBar extends Component {
   };
 
   toggleReceiptsOnly = () => {
+    const { hasReceiptsOnly } = this.state;
+
+    this.setState({ hasReceiptsOnly: !hasReceiptsOnly });
     store.dispatch(toggleReceiptsOnly());
   };
 
   render() {
-    const { activeSortField, isAscending } = this.state;
+    const { activeSortField, isAscending, hasReceiptsOnly } = this.state;
 
     return (
       <>
@@ -95,12 +100,7 @@ class NavBar extends Component {
                 </select>
                 <i className="material-icons filter__arrow">arrow_drop_down</i>
               </div>
-              <p className={"receipts-only__label"}>Has receipts</p>
-              <input
-                className={"controls__receipts-only"}
-                type={"checkbox"}
-                onClick={this.toggleReceiptsOnly}
-              />
+              <CheckBox label={"Has receipts"} checked={hasReceiptsOnly} onClick={this.toggleReceiptsOnly}/>
             </div>
             <div className="controls__sort-area">
               <SortButton
