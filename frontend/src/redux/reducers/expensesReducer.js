@@ -1,5 +1,7 @@
 const defaultState = {
-  expenses: []
+  expenses: [],
+  error: "",
+  isLoading: false
 };
 
 // breaking the DRY principle here for the sake of readability..
@@ -7,13 +9,13 @@ const expensesReducer = (state = defaultState, action) => {
   switch (action.type) {
     // receipt additions or removals will be applied in an immutable way
     case "ADD_RECEIPT": {
-      const newExpensesArray = state.expenses.map((expense) => {
+      const newExpensesArray = state.expenses.map(expense => {
         // update the corresponding expense with modified receipts array
         if (expense.id === action.payload.expenseID) {
           return {
-            ...expense,  // copy the existing expense data
-            receipts: [...expense.receipts, { url: action.payload.receiptURL }]  // append to the receipts array
-          }
+            ...expense, // copy the existing expense data
+            receipts: [...expense.receipts, { url: action.payload.receiptURL }] // append to the receipts array
+          };
         }
 
         // Leave every other expense unchanged
@@ -27,15 +29,15 @@ const expensesReducer = (state = defaultState, action) => {
       break;
     }
     case "REMOVE_RECEIPT": {
-      const newExpensesArray = state.expenses.map((expense) => {
+      const newExpensesArray = state.expenses.map(expense => {
         // update the corresponding expense with modified receipts array
-        if(expense.id === action.payload.expenseID) {
+        if (expense.id === action.payload.expenseID) {
           return {
             ...expense,
-            receipts: expense.receipts.filter((receipt) => {
+            receipts: expense.receipts.filter(receipt => {
               return receipt.url !== action.payload.receiptURL;
             })
-          }
+          };
         }
 
         // Leave every other expense unchanged
@@ -49,13 +51,13 @@ const expensesReducer = (state = defaultState, action) => {
       break;
     }
     case "UPDATE_COMMENT":
-      const newExpensesArray = state.expenses.map((expense) => {
+      const newExpensesArray = state.expenses.map(expense => {
         // update the corresponding expense with modified comment
-        if(expense.id === action.payload.expenseID) {
+        if (expense.id === action.payload.expenseID) {
           return {
             ...expense,
             comment: action.payload.comment
-          }
+          };
         }
 
         // Leave every other expense unchanged
@@ -71,6 +73,18 @@ const expensesReducer = (state = defaultState, action) => {
       state = {
         ...state,
         expenses: action.payload
+      };
+      break;
+    case "SHOW_ERROR":
+      state = {
+        ...state,
+        error: action.payload
+      };
+      break;
+    case "SET_LOADING":
+      state = {
+        ...state,
+        isLoading: action.payload
       };
       break;
     default:

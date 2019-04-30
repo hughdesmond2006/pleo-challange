@@ -2,53 +2,32 @@ import React, { Component } from "react";
 
 import Spinner from "../../Atoms/Spinner/Spinner";
 import ExpenseList from "../../Organisms/ExpenseList/ExpenseList";
-import axios from "axios";
+import { connect } from "react-redux";
 
 import styles from "./ExpensesPage.module.scss";
 import NavBar from "../../Organisms/NavBar/NavBar";
-import store from "../../../redux/store";
-import {initExpenses} from "../../../redux/actions/expensesActions"
+import { fetchData} from "../../../redux/actions/expensesActions";
 
 class ExpensesPage extends Component {
   state = {
-    isLoading: false,
     expenses: []
   };
 
   componentDidMount() {
-    this.fetchExpenses();
+    const { onFetchData } = this.props;
+    onFetchData();
   }
 
-  fetchExpenses = () => {
-    this.setState({ isLoading: true });
-
-    //gets all expenses from the api
-    axios
-      .get("http://localhost:3000/expenses")
-      .then(res => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error("failed to receive expense data");
-        }
-
-        this.setState({ expenses: res.data.expenses, isLoading: false });
-
-        store.dispatch(initExpenses(res.data.expenses));
-      })
-      .catch(err => {
-        console.dir(err);
-
-        this.setState({ isLoading: false });
-      });
-  };
-
   render() {
-    const { isLoading } = this.state;
+    const { isLoading, expenses } = this.props;
+
+    console.log(this.props);
 
     return (
       <>
         <NavBar />
         {!isLoading ? (
-          <ExpenseList expenses={this.state.expenses} />
+          <ExpenseList expenses={expenses} />
         ) : (
           <Spinner />
         )}
@@ -57,4 +36,19 @@ class ExpensesPage extends Component {
   }
 }
 
-export default ExpensesPage;
+const mapStateToProps = state => {
+  return {
+    expenses: state.expenses.expenses,
+    error: state.expenses.error,
+    isLoading: state.expenses.isLoading
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return { onFetchData: () => dispatch(fetchData()) };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ExpensesPage);

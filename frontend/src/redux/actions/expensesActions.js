@@ -34,3 +34,39 @@ export function initExpenses(expenses) {
     payload: expenses
   };
 }
+
+export function fetchData() {
+  return dispatch => {
+    dispatch({
+      type: "LOADING",
+      payload: true
+    });
+
+    //gets all expenses from the api
+    return fetch("http://localhost:3000/expenses")
+      .then(response => {
+        if (response.status !== 200 && response.status !== 201) {
+          throw new Error("failed to receive expense data");
+        }
+
+        return response.json();
+      })
+      .then(data => {
+        dispatch({
+          type: "INIT_EXPENSES",
+          payload: data.expenses
+        });
+
+        dispatch({
+          type: "LOADING",
+          payload: false
+        });
+      })
+      .catch(err =>
+        dispatch({
+          type: "SHOW_ERROR",
+          payload: err
+        })
+      );
+  };
+}

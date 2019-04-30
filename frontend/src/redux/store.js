@@ -1,5 +1,6 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import logger from "redux-logger";
+import thunk from "redux-thunk";
 
 import filterReducer from "./reducers/filterReducer";
 import sortReducer from "./reducers/sortReducer";
@@ -13,5 +14,5 @@ export default createStore(
     expenses: expensesReducer,
     highlight: highlightReducer
   }),
-  applyMiddleware(/*logger*/)
+  applyMiddleware(logger, thunk)
 );
