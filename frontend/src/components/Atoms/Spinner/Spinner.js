@@ -1,10 +1,10 @@
 import React from 'react';
 
-import './Spinner.scss'
+import styles from './Spinner.module.scss'
 
 const spinner = () => (
-    <div className={'spinner'}>
-        <div className="lds-ellipsis">
+    <div className={styles.spinner}>
+        <div className={styles.ellipsis}>
             <div></div>
             <div></div>
             <div></div>

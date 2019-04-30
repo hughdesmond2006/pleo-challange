@@ -1,0 +1,67 @@
+.text{
+    position: relative;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: block;
+    text-align: center;
+    word-break: break-word;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    resize: vertical;
+    outline: none;
+    vertical-align: center;
+    color: inherit;
+    height: 100%;
+    transition: background-color 2000ms ease-out;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.textHinting{
+    color: #cdcdcd;
+}
+
+.wrap:hover{
+    background-color: #f5f5f5;
+    cursor: text;
+    transition: none;
+}
+
+.toast{
+    display: block;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    padding-top: 5px;
+    height: 25px;
+    margin-top: -20px;
+    font-size: .9rem;
+}
+
+.toastSuccess{
+    background: rgba(188, 255, 184, 0.9);
+    color: rgb(25, 176, 0);
+}
+
+.toastFail{
+    background: rgba(255, 195, 184, 0.9);
+    color: rgb(196, 4, 0);
+}
+
+.wrap{
+    position: relative;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: rgba(0, 0, 0, 0);
+    transition: background-color 300ms ease-out;
+    border-right: .5px solid #c3c3c3;
+    @media not screen and (min-width: 540px){
+        border-left: .5px solid #c3c3c3;
+    }
+}
+
+.highlighted{
+    background-color: rgba(255, 228, 235, 0.82);
+    transition: none;
+    -webkit-transition: none;
+}

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 
-import './WarningModal.scss'
+import styles from './WarningModal.module.scss'
 
 // TODO styling, background, cleanup CSS
 const WarningModal = ({
@@ -16,8 +16,8 @@ const WarningModal = ({
       isOpen={modalOpen}
       contentLabel="Modal"
       shouldCloseOnOverlayClick={true}
-      className="modalWindow warningModal"
-      overlayClassName="modalWindowOverlay"
+      className={styles.window + " " + styles.warning}
+      overlayClassName={styles.overlay}
       ariaHideApp={false}
     >
       <h2>
@@ -26,7 +26,7 @@ const WarningModal = ({
       <p>
         {body}
       </p>
-      <button type="button" className="" onClick={onCloseModal}>
+      <button type="button" onClick={onCloseModal}>
         Got it
       </button>
     </Modal>

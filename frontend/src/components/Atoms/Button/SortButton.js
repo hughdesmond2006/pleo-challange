@@ -1,14 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import "./SortButton.scss";
+import styles from "./SortButton.module.scss";
 
 const SortButton = ({ title, active, isAscending, onClick }) => {
   return (
-    <button className="sort-button" onClick={onClick}>
-      <span className="sort-button__title">{title}</span>
+    <button className={styles.button} onClick={onClick}>
+      <span className={styles.title}>{title}</span>
       {active && (
-        <i className="material-icons sort-button__arrow">
+        <i className={"material-icons " + styles.arrow}>
           {isAscending ? "arrow_drop_up" : "arrow_drop_down"}
         </i>
       )}

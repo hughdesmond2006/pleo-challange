@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.scss';
 import ExpensesPage from "./components/Pages/ExpensesPage/ExpensesPage";
 import Provider from "react-redux/es/components/Provider";
 import store from "./redux/store";

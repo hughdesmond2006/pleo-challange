@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import "./ExpenseList.scss";
+import styles from "./ExpenseList.module.scss";
 import ExpenseCard from "../../Templates/ExpenseCard/ExpenseCard";
 import PropTypes from "prop-types";
 import { expenseType } from "../../../types/propShapes";
@@ -106,7 +106,7 @@ class ExpenseList extends Component {
 
     return (
       <React.Fragment>
-        <ul className={"expense-list"}>
+        <ul className={styles.list}>
           {expenses
             .filter(this.filterFunction)
             .sort(this.sortFunction)

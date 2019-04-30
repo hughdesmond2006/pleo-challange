@@ -1,14 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import "./CheckBox.scss";
+import styles from "./CheckBox.module.scss";
 
 const CheckBox = ({ label, checked, onClick }) => {
   return (
     <>
-      <p className={"checkbox__label"}>{label}</p>
-      <div className={"checkbox"} onClick={onClick}>
-        {checked && <i className="material-icons checkbox__tick">check</i>}
+      <p className={styles.label}>{label}</p>
+      <div className={styles.checkbox} onClick={onClick}>
+        {checked && <i className={"material-icons " + styles.tick}>check</i>}
       </div>
     </>
   );

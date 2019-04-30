@@ -4,7 +4,7 @@ import Spinner from "../../Atoms/Spinner/Spinner";
 import ExpenseList from "../../Organisms/ExpenseList/ExpenseList";
 import axios from "axios";
 
-import "./ExpensesPage.scss";
+import styles from "./ExpensesPage.module.scss";
 import NavBar from "../../Organisms/NavBar/NavBar";
 import store from "../../../redux/store";
 import {initExpenses} from "../../../redux/actions/expensesActions"

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import "./NavBar.scss";
+import styles from "./NavBar.module.scss";
 import store from "../../../redux/store";
 import {
   changeFilterField,
@@ -76,18 +76,18 @@ class NavBar extends Component {
 
     return (
       <>
-        <div className={"navbar"}>
-          <div className="navbar__controls">
-            <div className="controls__filter-area">
-              <div className={"controls__search-wrap"}>
+        <div className={styles.bar}>
+          <div className={styles.controls}>
+            <div className={styles.filterArea}>
+              <div className={styles.searchWrap}>
                 <input
-                  className={"controls__search"}
+                  className={styles.search}
                   type={"text"}
                   placeholder={"Search"}
                   onChange={this.changeFilterText} />
 
                 <select
-                  className={"controls__filter-type"}
+                  className={styles.filterType}
                   onChange={this.changeFilterField}
                 >
                   <option value="all">All</option>
@@ -98,11 +98,11 @@ class NavBar extends Component {
                   <option value="merchant">Merchant</option>
                   <option value="comment">Comment</option>
                 </select>
-                <i className="material-icons filter__arrow">arrow_drop_down</i>
+                <i className={"material-icons " + styles.filterArrow}>arrow_drop_down</i>
               </div>
               <CheckBox label={"Has receipts"} checked={hasReceiptsOnly} onClick={this.toggleReceiptsOnly}/>
             </div>
-            <div className="controls__sort-area">
+            <div className={styles.sortArea}>
               <SortButton
                 title="Amount"
                 active={activeSortField === "amount"}
@@ -118,7 +118,7 @@ class NavBar extends Component {
             </div>
           </div>
         </div>
-        <div className={"navbar__spacer"} />
+        <div className={styles.spacer} />
       </>
     );
   }

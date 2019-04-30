@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import "./ImageDisplay.scss";
+import styles from "./ImageDisplay.module.scss";
 import { receiptType } from "../../../types/propShapes";
 
 class ImageDisplay extends Component {
@@ -28,20 +28,20 @@ class ImageDisplay extends Component {
     // only shows the delete button if a delete function is defined
     return (
       <div
-        className={"image__wrap"}
+        className={styles.wrap}
         onMouseOver={this.showDelete}
         onMouseOut={this.hideDelete}
       >
         <div
           className={
-            "image__delete" +
-            (showDelete && onDelete ? " image__delete--show" : "")
+            styles.delete + " " +
+            (showDelete && onDelete ? styles.deleteShow : "")
           }
           onClick={() => onDelete(image.url)}
         >
         </div>
         <div
-          className={"image__display"}
+          className={styles.display}
           style={{
             backgroundImage: `url(${process.env.REACT_APP_API_URL + image.url})`
           }}

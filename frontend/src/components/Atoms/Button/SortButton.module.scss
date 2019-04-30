@@ -1,4 +1,4 @@
-.sort-button{
+.button{
     border-radius: 3px;
     border: none;
     background: white;
@@ -11,18 +11,18 @@
     cursor: pointer;
 }
 
-.sort-button:hover{
+.button:hover{
     background: #f5f5f5;
     transition: none;
 }
 
-.sort-button__title{
+.title{
     display: inline;
     vertical-align: middle;
 }
 
 
-.sort-button__arrow{
+.arrow{
     display: inline;
     vertical-align: middle;
     padding: 0;

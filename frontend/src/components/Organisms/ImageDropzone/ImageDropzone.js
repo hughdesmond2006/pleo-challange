@@ -3,7 +3,7 @@ import Dropzone from "react-dropzone";
 import PropTypes from "prop-types";
 
 import WarningModal from "../../Atoms/Modal/WarningModal";
-import "./ImageDropzone.scss";
+import styles from "./ImageDropzone.module.scss";
 import axios from "axios";
 import ImageDisplay from "../../Molecules/Display/ImageDisplay";
 import { receiptType } from "../../../types/propShapes";
@@ -130,7 +130,7 @@ class ImageDropzone extends Component {
         )}
         {isExpanded && (
           <Dropzone
-            className={"dropzone" + (showDropBorder ? " dropzone--dragover" : "")}
+            className={styles.zone + " " + (showDropBorder ? styles.zoneDragover : "")}
             onDrop={this.onChange.bind(this, expenseID)}
             maxSize={this.imageMaxSize}
             accept="image/jpeg, image/png"
@@ -140,7 +140,7 @@ class ImageDropzone extends Component {
             onDragLeave={this.onDragLeave}
             ref={"dropzone"}
           >
-            <ul className={"image__list"}>
+            <ul className={styles.list}>
               {images.map((image, i) => (
                 <li key={i}>
                   <ImageDisplay
@@ -149,21 +149,21 @@ class ImageDropzone extends Component {
                   />
                 </li>
               ))}
-              <div className={"image__add"}>
-                <div className={"add__click"} onClick={this.browseImages} />
-                <p className={"add__plus"}>+</p>
-                <p className={"add__text"}>
+              <div className={styles.add}>
+                <div className={styles.add_click} onClick={this.browseImages} />
+                <p className={styles.add_plus}>+</p>
+                <p className={styles.add_text}>
                   Drop or click here to add a new receipt
                 </p>
               </div>
             </ul>
           </Dropzone>
         )}
-        <div className={"dropzone__expander"} onClick={this.toggleExpander}>
+        <div className={styles.expander} onClick={this.toggleExpander}>
           {isExpanded ? (
-            <p className={"expander__arrow"}>^</p>
+            <p className={styles.expander_arrow}>^</p>
           ) : (
-            <p className={"expander__receipt-count"}>
+            <p className={styles.expander_count}>
               Receipts ({images.length})
             </p>
           )}
